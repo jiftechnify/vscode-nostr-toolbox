@@ -1,7 +1,7 @@
 <script lang="ts">
   // import {} from 'vscode-webview'
-  import {generateSecretKey, getPublicKey} from 'nostr-tools'
-  import {bytesToHex, hexToBytes} from '@noble/hashes/utils'
+  import { generateSecretKey, getPublicKey } from "nostr-tools";
+  import { bytesToHex } from "@noble/hashes/utils";
 
   // const vscode = acquireVsCodeApi();
   // vscode.postMessage({ type: "ready" });
@@ -9,42 +9,47 @@
   let publicKey = "";
   let secretKey = "";
 
-  $: {
-    try {
-      const skBytes = hexToBytes(secretKey);
-      publicKey = getPublicKey(skBytes);
-    } catch (e) {
-      console.error("failed to get keypair:", e)
-      publicKey = "";
-    }
-  }
   const handleClickGenerate = () => {
     const skBytes = generateSecretKey();
     secretKey = bytesToHex(skBytes);
     publicKey = getPublicKey(skBytes);
-  }
+  };
   const handleClickCopySeckey = () => {
     navigator.clipboard.writeText(secretKey);
-  }
+  };
   const handleClickCopyPubkey = () => {
     navigator.clipboard.writeText(publicKey);
-  }
+  };
 </script>
 
 <main>
-  <button class="btn-generate" on:click={handleClickGenerate}>Generate Keypair</button>
-  <div class="container-keypair">
+  <button class="btn-generate" on:click={handleClickGenerate}
+    >Generate Key Pair</button
+  >
+  <div class="container-key-pair">
     <div class="container-key">
-      <label for="secret-key" class="label-key">Secret Key:</label>
+      <label for="secret-key" class="label-key">Secret Key</label>
       <div class="row-key">
-        <input id="secret-key" class="input-key" type="password" bind:value={secretKey} />
+        <input
+          id="secret-key"
+          class="input-key"
+          type="password"
+          readonly
+          value={secretKey}
+        />
         <button class="btn-copy" on:click={handleClickCopySeckey}>Copy</button>
       </div>
     </div>
     <div class="container-key">
-      <label for="public-key" class="label-key">Public Key:</label>
+      <label for="public-key" class="label-key">Public Key</label>
       <div class="row-key">
-        <input id="public-key" class="input-key" type="text" readonly value={publicKey}/>
+        <input
+          id="public-key"
+          class="input-key"
+          type="text"
+          readonly
+          value={publicKey}
+        />
         <button class="btn-copy" on:click={handleClickCopyPubkey}>Copy</button>
       </div>
     </div>
@@ -53,26 +58,27 @@
 
 <style>
   main {
-    width: 80%;
-    min-width: 300px;
-    margin: auto;
-  }
-  .btn-generate {
-    width: 100%;
-  }
-  .container-keypair {
     display: flex;
     flex-direction: column;
     gap: 2rem;
+    min-width: 100px;
+    height: fit-content;
+    margin: 2rem 0.5rem;
+  }
+  .btn-generate {
+    width: 100%;
+    border-radius: 2px;
+  }
+  .container-key-pair {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
     width: 100%;
   }
   .container-key {
     display: flex;
     flex-direction: column;
     gap: 0.25rem;
-  }
-  .label-key {
-    font-weight: bold;
   }
   .row-key {
     display: flex;
@@ -84,5 +90,6 @@
   .btn-copy {
     flex-grow: 0;
     width: 4rem;
+    border-radius: 2px;
   }
 </style>
