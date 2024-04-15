@@ -26,8 +26,8 @@
       "nostr-toolbox": [
         {
           "type": "webview",
-          "id": "nostrToolbox.keypairGenerator",
-          "name": "Generate Keypair"
+          "id": "nostrToolbox.keyPairGenerator",
+          "name": "Key Pair Generator"
         },
         {
           "type": "tree",
@@ -84,6 +84,7 @@
   "packageManager": "pnpm@8.15.5+sha256.4b4efa12490e5055d59b9b9fc9438b7d581a6b7af3b5675eb5c5f447cee1a589",
   "dependencies": {
     "@noble/hashes": "^1.4.0",
+    "@vscode/codicons": "^0.0.35",
     "nostr-tools": "^2.5.0"
   }
 }

@@ -37,7 +37,9 @@
           readonly
           value={secretKey}
         />
-        <button class="btn-copy" on:click={handleClickCopySeckey}>Copy</button>
+        <button class="btn-copy" on:click={handleClickCopySeckey}>
+          <i class="codicon codicon-files"></i>
+        </button>
       </div>
     </div>
     <div class="container-key">
@@ -50,7 +52,9 @@
           readonly
           value={publicKey}
         />
-        <button class="btn-copy" on:click={handleClickCopyPubkey}>Copy</button>
+        <button class="btn-copy" on:click={handleClickCopyPubkey}>
+          <i class="codicon codicon-files"></i>
+        </button>
       </div>
     </div>
   </div>
