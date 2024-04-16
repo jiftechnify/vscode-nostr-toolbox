@@ -11,5 +11,9 @@
 				"useNodejsImportProtocol": "off"
 			}
 		}
+	},
+	"formatter": {
+		"enabled": true,
+		"lineWidth": 120
 	}
 }
