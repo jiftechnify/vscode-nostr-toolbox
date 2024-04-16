@@ -1,25 +1,35 @@
 <script lang="ts">
-  // import {} from 'vscode-webview'
-  import { generateSecretKey, getPublicKey } from "nostr-tools";
-  import { bytesToHex } from "@noble/hashes/utils";
+import { generateSecretKey, getPublicKey } from "nostr-tools";
+import { bytesToHex } from "@noble/hashes/utils";
+import { getVscode } from "./getVscode";
 
-  // const vscode = acquireVsCodeApi();
-  // vscode.postMessage({ type: "ready" });
+// const vscode = getVscode<string>();
 
-  let publicKey = "";
-  let secretKey = "";
+let publicKey = "";
+let secretKey = "";
 
-  const handleClickGenerate = () => {
-    const skBytes = generateSecretKey();
-    secretKey = bytesToHex(skBytes);
-    publicKey = getPublicKey(skBytes);
-  };
-  const handleClickCopySeckey = () => {
-    navigator.clipboard.writeText(secretKey);
-  };
-  const handleClickCopyPubkey = () => {
-    navigator.clipboard.writeText(publicKey);
-  };
+const handleClickGenerate = () => {
+	const skBytes = generateSecretKey();
+	secretKey = bytesToHex(skBytes);
+	publicKey = getPublicKey(skBytes);
+};
+const handleClickCopySeckey = () => {
+	navigator.clipboard.writeText(secretKey);
+};
+const handleClickCopyPubkey = () => {
+	navigator.clipboard.writeText(publicKey);
+};
+
+window.addEventListener("message", (event) => {
+	const message = event.data;
+	switch (message.type) {
+		case "generateKeyPair":
+			handleClickGenerate();
+			break;
+		default:
+			console.log("unknown message:", message);
+	}
+});
 </script>
 
 <main>

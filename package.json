@@ -26,20 +26,21 @@
       "nostr-toolbox": [
         {
           "type": "webview",
-          "id": "nostrToolbox.keyPairGenerator",
+          "id": "nostr-toolbox.keyPairGenerator",
           "name": "Key Pair Generator"
         },
         {
           "type": "tree",
-          "id": "nostrToolbox.mogemoge",
+          "id": "nostr-toolbox.mogemoge",
           "name": "Mogemoge"
         }
       ]
     },
     "commands": [
       {
-        "command": "nostr-toolbox.helloWorld",
-        "title": "Hello World"
+        "command": "nostr-toolbox.generateKeyPair",
+        "category": "Nostr Toolbox",
+        "title": "Generate Key Pair"
       }
     ]
   },
@@ -54,10 +55,12 @@
     "compile-web": "webpack",
     "watch-web": "webpack --watch",
     "package-web": "webpack --mode production --devtool hidden-source-map",
-    "lint": "eslint src --ext ts",
+    "lint": "biome format ./src && biome lint ./src",
+    "fix": "biome format --write ./src && biome lint --apply ./src",
     "run-in-browser": "vscode-test-web --browserType=chromium --extensionDevelopmentPath=. ."
   },
   "devDependencies": {
+    "@biomejs/biome": "^1.7.0",
     "@sveltejs/vite-plugin-svelte": "^3.0.2",
     "@tsconfig/svelte": "^5.0.2",
     "@types/assert": "^1.5.10",
@@ -65,11 +68,8 @@
     "@types/vscode": "^1.88.0",
     "@types/vscode-webview": "^1.57.5",
     "@types/webpack-env": "^1.18.4",
-    "@typescript-eslint/eslint-plugin": "^7.4.0",
-    "@typescript-eslint/parser": "^7.4.0",
     "@vscode/test-web": "^0.0.53",
     "assert": "^2.1.0",
-    "eslint": "^8.57.0",
     "mocha": "^10.4.0",
     "process": "^0.11.10",
     "svelte": "^4.2.12",
