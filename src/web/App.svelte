@@ -1,35 +1,40 @@
 <script lang="ts">
-import { generateSecretKey, getPublicKey } from "nostr-tools";
-import { bytesToHex } from "@noble/hashes/utils";
-import { getVscode } from "./getVscode";
+  import { generateSecretKey, getPublicKey } from "nostr-tools";
+  import { bytesToHex } from "@noble/hashes/utils";
+  import { onMount } from "svelte";
 
-// const vscode = getVscode<string>();
+  let publicKey = "";
+  let secretKey = "";
 
-let publicKey = "";
-let secretKey = "";
+  const handleClickGenerate = () => {
+    const skBytes = generateSecretKey();
+    secretKey = bytesToHex(skBytes);
+    publicKey = getPublicKey(skBytes);
+  };
+  const handleClickCopySeckey = () => {
+    navigator.clipboard.writeText(secretKey);
+  };
+  const handleClickCopyPubkey = () => {
+    navigator.clipboard.writeText(publicKey);
+  };
 
-const handleClickGenerate = () => {
-	const skBytes = generateSecretKey();
-	secretKey = bytesToHex(skBytes);
-	publicKey = getPublicKey(skBytes);
-};
-const handleClickCopySeckey = () => {
-	navigator.clipboard.writeText(secretKey);
-};
-const handleClickCopyPubkey = () => {
-	navigator.clipboard.writeText(publicKey);
-};
+  onMount(() => {
+    const handleMessage = (event: MessageEvent) => {
+      const message = event.data;
+      switch (message.type) {
+        case "generateKeyPair":
+          handleClickGenerate();
+          break;
+        default:
+          console.log("unknown message:", message);
+      }
+    };
+    window.addEventListener("message", handleMessage);
 
-window.addEventListener("message", (event) => {
-	const message = event.data;
-	switch (message.type) {
-		case "generateKeyPair":
-			handleClickGenerate();
-			break;
-		default:
-			console.log("unknown message:", message);
-	}
-});
+    return () => {
+      window.removeEventListener("message", handleMessage);
+    };
+  });
 </script>
 
 <main>
